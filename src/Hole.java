@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Hole {
     private boolean hasBeenHit;
     private int x;
@@ -23,23 +25,20 @@ public class Hole {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getHOLE_WIDTH() {
+    public int getHoleWidth() {
         return HOLE_WIDTH;
     }
 
-    public int getHOLE_HEIGHT() {
+    public int getHoleHeight() {
         return HOLE_HEIGHT;
+    }
+
+    public void draw(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillOval(x, y, HOLE_WIDTH, HOLE_HEIGHT);
     }
 }

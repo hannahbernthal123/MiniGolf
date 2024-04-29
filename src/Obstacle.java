@@ -1,31 +1,33 @@
+import java.awt.*;
+
 //Hannah Bernthal - 2024
 public class Obstacle {
-    private int height;
-    private int width;
+    private int OBSTACLE_WIDTH;
+    private int OBSTACLE_HEIGHT;
     private int x;
     private int y;
 
     public Obstacle(int width, int height) {
-        this.width = width;
-        this.height = height;
+        OBSTACLE_WIDTH = width;
+        OBSTACLE_HEIGHT = height;
         x = (int) (Math.random() * 1000);
         y = (int) (Math.random() * 800);
     }
 
     public int getHeight() {
-        return height;
+        return OBSTACLE_HEIGHT;
     }
 
     public void setHeight(int height) {
-        this.height = height;
+        this.OBSTACLE_HEIGHT = height;
     }
 
     public int getWidth() {
-        return width;
+        return OBSTACLE_WIDTH;
     }
 
     public void setWidth(int width) {
-        this.width = width;
+        this.OBSTACLE_WIDTH = width;
     }
 
     public int getX() {
@@ -44,5 +46,9 @@ public class Obstacle {
         this.y = y;
     }
 
+    public void draw(Graphics g) {
+        g.setColor(Color.WHITE);
+        //g.fillRect(200, 500, width, height);
+    }
 
 }

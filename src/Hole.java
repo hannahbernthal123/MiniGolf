@@ -1,11 +1,12 @@
 import java.awt.*;
 
+//Hannah Bernthal - 2024
 public class Hole {
     private boolean hasBeenHit;
     private int x;
     private int y;
-    private final int HOLE_WIDTH = 50;
-    private final int HOLE_HEIGHT = 50;
+    private final int HOLE_WIDTH = 30;
+    private final int HOLE_HEIGHT = 30;
 
     public Hole(int x, int y) {
         this.x = x;

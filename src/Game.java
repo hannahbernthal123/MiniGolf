@@ -93,7 +93,6 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     public void hit() {
         if (ball.getX() > hole.getX() && ball.getX() < (hole.getX() + hole.getHoleWidth())) {
             if (ball.getY() > hole.getY() && ball.getY() < (hole.getY() + hole.getHoleHeight())) {
-                gameOver = true;
                 currentState = "gameOver";
             }
         }

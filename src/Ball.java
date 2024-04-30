@@ -6,8 +6,8 @@ public class Ball {
     private final int BALL_HEIGHT = 20;
     private final int WINDOW_WIDTH = 1000;
     private final int WINDOW_HEIGHT = 800;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private double dx;
     private double dy;
 
@@ -18,7 +18,7 @@ public class Ball {
         y = 100;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
@@ -26,7 +26,7 @@ public class Ball {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
@@ -50,10 +50,10 @@ public class Ball {
 
 
 
-    public void setXVelocity(int other) {
+    public void setXVelocity(double other) {
         dx = other;
     }
-    public void setYVelocity(int other) {
+    public void setYVelocity(double other) {
         dy = other;
     }
 
@@ -71,26 +71,27 @@ public class Ball {
     }
 
     public void friction() {
-        if (dx >= 0) {
-            dx = dx - .2;
+        double magnitude = Math.sqrt((dx*dx) + (dy*dy));
+        if (dx > 0) {
+            dx = dx - (dx / magnitude) * .2;
             if (dx < 0) {
                 dx = 0;
             }
         }
-        if (dx <= 0) {
-            dx = dx + .2;
+        else if (dx < 0) {
+            dx = dx + (-dx / magnitude) * .2;
             if (dx > 0) {
                 dx = 0;
             }
         }
-        if (dy >= 0) {
-            dy = dy - .2;
+        if (dy > 0) {
+            dy = dy - (dy / magnitude) * .2;
             if (dy < 0) {
                 dy = 0;
             }
         }
-        if (dy <= 0) {
-            dy = dy + .2;
+        else if (dy < 0) {
+            dy = dy + (-dy / magnitude) * .2;
             if (dy > 0) {
                 dy = 0;
             }
@@ -118,6 +119,6 @@ public class Ball {
     }
     public void draw(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillOval(x, y, BALL_WIDTH, BALL_HEIGHT);
+        g.fillOval((int) x, (int) y, BALL_WIDTH, BALL_HEIGHT);
     }
 }

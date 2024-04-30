@@ -48,7 +48,7 @@ public class Obstacle {
 
     public void draw(Graphics g) {
         g.setColor(Color.WHITE);
-        //g.fillRect(200, 500, width, height);
+        g.fillRect(200, 500, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
     }
 
 }

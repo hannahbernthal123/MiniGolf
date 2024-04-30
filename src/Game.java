@@ -9,6 +9,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     private Ball ball;
     private Hole hole;
     private Obstacle obstacle;
+    private double futureVel;
     private boolean gameOver;
     private boolean isPressed;
     private static final int SLEEP_TIME = 30;
@@ -19,6 +20,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         ball = new Ball();
         hole = new Hole((int) ((Math.random() * 800) + 100), (int) ((Math.random() * 600) + 100));
         obstacle = new Obstacle(70, 100);
+        futureVel = 0;
         currentState = "instructions";
         window = new GameViewer(this);
         this.window.addMouseListener(this);
@@ -47,10 +49,16 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     }
 
     public void mousePressed(MouseEvent e) {
+        futureVel = 0;
         isPressed = true;
     }
 
     public void mouseReleased(MouseEvent e) {
+        double diffX = e.getX() - ball.getX();
+        double diffY = e.getY() - ball.getY();
+        double distance = Math.sqrt((diffX*diffX) + (diffY*diffY));
+        ball.setXVelocity(diffX/distance*futureVel);
+        ball.setYVelocity(diffY/distance*futureVel);
         isPressed = false;
     }
 
@@ -61,10 +69,6 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
                 currentState = "play";
                 window.repaint();
             }
-        }
-        else if (currentState.equals("play")) {
-            ball.setXVelocity(10);
-            ball.setYVelocity(10);
         }
     }
 
@@ -97,6 +101,12 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     }
     public void actionPerformed(ActionEvent e) {
         window.repaint();
+        if (isPressed) {
+            futureVel += .5;
+            if (futureVel >= 20) {
+                futureVel = 20;
+            }
+        }
         ball.move();
         ball.bounce();
         ball.friction();

@@ -10,7 +10,6 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     private Hole hole;
     private Obstacle obstacle;
     private double futureVel;
-    private boolean gameOver;
     private boolean isPressed;
     private static final int SLEEP_TIME = 30;
     private String currentState;

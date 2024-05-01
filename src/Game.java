@@ -35,7 +35,6 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     public Hole getHole() {
         return hole;
     }
-
     public Obstacle getObstacle() {
         return obstacle;
     }

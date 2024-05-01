@@ -40,6 +40,19 @@ public class Hole {
 
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
-        g.fillOval(x, y, HOLE_WIDTH, HOLE_HEIGHT);
+        // Add minus 10 for depth effect.
+        g.fillOval(x, y, HOLE_WIDTH, HOLE_HEIGHT - 10);
+        g.setColor(Color.WHITE);
+
+        // Variables for flag.
+        int topOfFlagY = y - 50;
+        int topOfFlagX = x + 13;
+        int[] flagXPoints = new int[]{topOfFlagX, topOfFlagX, topOfFlagX + 45};
+        int[] flagYPoints = new int[]{topOfFlagY, topOfFlagY - 30, (topOfFlagY + topOfFlagY - 30) / 2};
+        int numFlagPoints = 3;
+
+        g.fillRect(topOfFlagX, topOfFlagY, 3, 60);
+        g.setColor(Color.RED);
+        g.fillPolygon(flagXPoints, flagYPoints, numFlagPoints);
     }
 }

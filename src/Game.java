@@ -113,6 +113,15 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
             }
         }
     }
+
+    public void obstacleBounce() {
+        if (ball.getX() > obstacle.getX() && ball.getX() < obstacle.getX() + obstacle.getWidth()) {
+            if (ball.getY() > obstacle.getY() && ball.getY() < obstacle.getY() + obstacle.getHeight()) {
+                ball.setXVelocity(ball.getXVelocity() * -1);
+                ball.setYVelocity(ball.getYVelocity() * -1);
+            }
+        }
+    }
     public void actionPerformed(ActionEvent e) {
         window.repaint();
         if (isPressed) {
@@ -123,6 +132,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         }
         ball.move();
         ball.wallBounce();
+        obstacleBounce();
         ball.friction();
         hit();
     }

@@ -117,25 +117,6 @@ public class Ball {
         }
     }
 
-    public void obstacleBounce() {
-        if (x > WINDOW_WIDTH - BALL_WIDTH) {
-            dx *= -1;
-            x = WINDOW_WIDTH - BALL_WIDTH;
-        }
-        else if (x < 0) {
-            dx *= -1;
-            x = 0;
-        }
-        else if (y > WINDOW_HEIGHT - BALL_HEIGHT) {
-            dy *= -1;
-            y = WINDOW_HEIGHT - BALL_HEIGHT;
-        }
-        else if (y < 20) {
-            dy *= -1;
-            y = 20;
-        }
-    }
-
     public void draw(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillOval((int) x, (int) y, BALL_WIDTH, BALL_HEIGHT);

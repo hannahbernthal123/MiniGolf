@@ -60,17 +60,17 @@ public class Obstacle {
 
     public void drawRound1(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(200, 500, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+        g.fillRect(x, y, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
     }
 
     public void drawRound2(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(600, 100, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+        g.fillRect(x, y, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
     }
 
     public void drawRound3(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(400, 300, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+        g.fillRect(x, y, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
     }
 
 }

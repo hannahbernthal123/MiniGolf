@@ -30,6 +30,14 @@ public class Hole {
         return y;
     }
 
+    public void setX(int other) {
+        x = other;
+    }
+
+    public void setY(int other) {
+        y = other;
+    }
+
     public int getHoleWidth() {
         return HOLE_WIDTH;
     }

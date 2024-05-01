@@ -46,9 +46,31 @@ public class Obstacle {
         this.y = y;
     }
 
-    public void draw(Graphics g) {
-//        g.setColor(Color.WHITE);
-//        g.fillRect(200, 500, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+    public void draw(Graphics g, int round) {
+        if (round == 1) {
+            drawRound1(g);
+        }
+        else if (round == 2) {
+            drawRound2(g);
+        }
+        else {
+            drawRound3(g);
+        }
+    }
+
+    public void drawRound1(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.fillRect(200, 500, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+    }
+
+    public void drawRound2(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.fillRect(600, 100, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
+    }
+
+    public void drawRound3(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.fillRect(400, 300, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);
     }
 
 }

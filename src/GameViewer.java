@@ -37,9 +37,21 @@ public class GameViewer extends JFrame {
         if (game.getCurrentState().equals("play")) {
             g.setColor(new Color(0x068306));
             g.fillRect(0, 0, 1000, 800);
-            game.getHole().draw(g);
-            game.getBall().draw(g);
-            game.getObstacle().draw(g);
+            if (game.getRound() == 1) {
+                game.getHole().draw(g);
+                game.getBall().draw(g);
+                game.getObstacle().draw(g, 1);
+            }
+            else if (game.getRound() == 2) {
+                game.getHole().draw(g);
+                game.getBall().draw(g);
+                game.getObstacle().draw(g, 2);
+            }
+            else {
+                game.getHole().draw(g);
+                game.getBall().draw(g);
+                game.getObstacle().draw(g, 3);
+            }
         }
         if (game.getCurrentState().equals("gameOver")) {
             g.setColor(Color.WHITE);
@@ -47,6 +59,7 @@ public class GameViewer extends JFrame {
             g.setColor(Color.BLACK);
             g.setFont(new Font("Impact", Font.BOLD, 30));
             g.drawString("GAME OVER", 200, 200);
+            g.drawString("Your score is " + game.getScore(), 200, 400);
         }
 
     }

@@ -14,8 +14,10 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     private static final int SLEEP_TIME = 30;
     private String currentState;
     private ArrayList<Obstacle> obstacles;
+    private int round;
 
     public Game() {
+        round = 1;
         ball = new Ball();
         hole = new Hole((int) ((Math.random() * 800) + 100), (int) ((Math.random() * 600) + 100));
         obstacle = new Obstacle(70, 100);
@@ -25,7 +27,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         this.window.addMouseListener(this);
         this.window.addMouseMotionListener(this);
         obstacles = new ArrayList<Obstacle>();
-        score = 0;
+        score = -1;
         isPressed = false;
     }
 
@@ -38,6 +40,9 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     public Obstacle getObstacle() {
         return obstacle;
     }
+    public int getRound() {
+        return round;
+    }
     public int getScore() {
         return score;
     }
@@ -49,6 +54,8 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     public void mousePressed(MouseEvent e) {
         futureVel = 0;
         isPressed = true;
+        score++;
+        System.out.println(score);
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -92,7 +99,17 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     public void hit() {
         if (ball.getX() > hole.getX() && ball.getX() < (hole.getX() + hole.getHoleWidth())) {
             if (ball.getY() > hole.getY() && ball.getY() < (hole.getY() + hole.getHoleHeight())) {
-                currentState = "gameOver";
+                round++;
+                if (round > 3) {
+                    currentState = "gameOver";
+                }
+                ball.setX(100);
+                ball.setY(100);
+                ball.setXVelocity(0);
+                ball.setYVelocity(0);
+                hole.setX((int) ((Math.random() * 800) + 100));
+                hole.setY((int) ((Math.random() * 600) + 100));
+                window.repaint();
             }
         }
     }
@@ -105,7 +122,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
             }
         }
         ball.move();
-        ball.bounce();
+        ball.wallBounce();
         ball.friction();
         hit();
     }

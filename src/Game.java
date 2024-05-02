@@ -62,8 +62,8 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         double diffX = e.getX() - ball.getX();
         double diffY = e.getY() - ball.getY();
         double distance = Math.sqrt((diffX*diffX) + (diffY*diffY));
-        ball.setXVelocity(diffX/distance*futureVel);
-        ball.setYVelocity(diffY/distance*futureVel);
+        ball.setXVelocity(-1*(diffX/distance*futureVel));
+        ball.setYVelocity(-1*(diffY/distance*futureVel));
         isPressed = false;
     }
 
@@ -89,6 +89,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         // Ask the input event the current location (x and y position on the Frame) of the mouse
         int x = e.getX();
         int y = e.getY();
+
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -115,12 +116,15 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     }
 
     public void obstacleBounce() {
-        if (ball.getX() > obstacle.getX() && ball.getX() < obstacle.getX() + obstacle.getWidth()) {
-            if (ball.getY() > obstacle.getY() && ball.getY() < obstacle.getY() + obstacle.getHeight()) {
-                ball.setXVelocity(ball.getXVelocity() * -1);
-                ball.setYVelocity(ball.getYVelocity() * -1);
-            }
+        // If it is touching some wall
+        if (ball.getX() > obstacle.getX() - ball.getBallWidth() && ball.getX() < obstacle.getX() + obstacle.getWidth()) {
+            ball.setXVelocity(ball.getXVelocity() * -1);
+            ball.setYVelocity(ball.getYVelocity() * 1);
         }
+//        else if (ball.getY() > obstacle.getY() - ball.getBallHeight() && ball.getY() < obstacle.getY() + obstacle.getHeight()) {
+//            ball.setXVelocity(ball.getXVelocity() * 1);
+//            ball.setYVelocity(ball.getYVelocity() * -1);
+//        }
     }
     public void actionPerformed(ActionEvent e) {
         window.repaint();

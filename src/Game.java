@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -59,6 +60,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     }
 
     public void mouseReleased(MouseEvent e) {
+        ball.setColor(Color.white);
         double diffX = e.getX() - ball.getX();
         double diffY = e.getY() - ball.getY();
         double distance = Math.sqrt((diffX*diffX) + (diffY*diffY));
@@ -89,7 +91,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         // Ask the input event the current location (x and y position on the Frame) of the mouse
         int x = e.getX();
         int y = e.getY();
-
+        ball.setColor(new Color(0xFF686D));
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -108,7 +110,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
                 ball.setY(100);
                 ball.setXVelocity(0);
                 ball.setYVelocity(0);
-                hole.setX((int) ((Math.random() * 800) + 100));
+                hole.setX((int) ((Math.random() * 600) + 300));
                 hole.setY((int) ((Math.random() * 600) + 100));
                 window.repaint();
             }
@@ -116,15 +118,38 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     }
 
     public void obstacleBounce() {
-        // If it is touching some wall
-        if (ball.getX() > obstacle.getX() - ball.getBallWidth() && ball.getX() < obstacle.getX() + obstacle.getWidth()) {
-            ball.setXVelocity(ball.getXVelocity() * -1);
-            ball.setYVelocity(ball.getYVelocity() * 1);
+        // Format the following with initials --> bw = ball width, bx = ball x coordinate, etc.
+        int bw = ball.getBallWidth();
+        int bh = ball.getBallHeight();
+        int bx = (int) ball.getX();
+        int by = (int) ball.getY();
+        int ow = obstacle.getWidth();
+        int oh = obstacle.getHeight();
+        int ox = obstacle.getX();
+        int oy = obstacle.getY();
+
+        // Hits the top of the obstacle
+        if ((by + bh) > oy && (bx > ox && bx < (ox + ow))) {
+            // Flips Y, keeps X (bounces off at correct angle)
+            ball.setYVelocity(ball.getYVelocity() * -1);
+            ball.setY(oy - bh - 5);
         }
-//        else if (ball.getY() > obstacle.getY() - ball.getBallHeight() && ball.getY() < obstacle.getY() + obstacle.getHeight()) {
-//            ball.setXVelocity(ball.getXVelocity() * 1);
-//            ball.setYVelocity(ball.getYVelocity() * -1);
+        // Hits the bottom of the obstacle
+        else if (by < (oy + oh) && (bx > ox && bx < (ox + ow))) {
+            ball.setYVelocity(ball.getYVelocity() * -1);
+            ball.setY(oy + oh + 5);
+        }
+        // Hits the left side of the obstacle
+//        else if ((bx + bw) > ox && (by > oy && by < (oy + oh))) {
+//            // Flips X, keeps Y (bounces off at correct angle)
+//            ball.setXVelocity(ball.getXVelocity() * -1);
+//            ball.setX(ox - bw - 5);
 //        }
+//        // Hits the right side of the obstacle
+         else if (bx < (ox + ow) && (bx > ox) && (by > oy && by < (oy + oh))) {
+            ball.setXVelocity(ball.getXVelocity() * -1);
+            ball.setX(ox + ow + bw + 5);
+        }
     }
     public void actionPerformed(ActionEvent e) {
         window.repaint();
@@ -134,11 +159,11 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
                 futureVel = 20;
             }
         }
-        ball.move();
+        ball.friction();
         ball.wallBounce();
         obstacleBounce();
-        ball.friction();
-        hit();
+        ball.move();
+//        hit();
     }
 
     public static void main(String[] args) {

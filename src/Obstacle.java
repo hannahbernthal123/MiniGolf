@@ -10,8 +10,8 @@ public class Obstacle {
     public Obstacle(int width, int height) {
         OBSTACLE_WIDTH = width;
         OBSTACLE_HEIGHT = height;
-        x = (int) (Math.random() * 1000);
-        y = (int) (Math.random() * 800);
+        x = (int) ((Math.random() * 800) + OBSTACLE_WIDTH);
+        y = ((int) (Math.random() * 600) + OBSTACLE_HEIGHT);
     }
 
     public int getHeight() {

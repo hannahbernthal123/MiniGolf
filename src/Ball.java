@@ -10,12 +10,14 @@ public class Ball {
     private double y;
     private double dx;
     private double dy;
+    private Color color;
 
     public Ball() {
         dx = 0;
         dy = 0;
         x = 100;
         y = 100;
+        color = Color.white;
     }
 
     public double getX() {
@@ -24,6 +26,9 @@ public class Ball {
 
     public void setX(int x) {
         this.x = x;
+    }
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public double getY() {
@@ -118,7 +123,7 @@ public class Ball {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.WHITE);
+        g.setColor(color);
         g.fillOval((int) x, (int) y, BALL_WIDTH, BALL_HEIGHT);
     }
 }

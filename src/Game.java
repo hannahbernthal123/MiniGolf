@@ -56,7 +56,6 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         futureVel = 0;
         isPressed = true;
         score++;
-        System.out.println(score);
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -129,26 +128,31 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         int oy = obstacle.getY();
 
         // Hits the top of the obstacle
-        if ((by + bh) > oy && (bx > ox && bx < (ox + ow))) {
+        if ((by > oy - bh) && (by + bh < oy + oh/2) && (bx > ox) && (bx < ox + ow)) {
             // Flips Y, keeps X (bounces off at correct angle)
+            System.out.println("top");
             ball.setYVelocity(ball.getYVelocity() * -1);
-            ball.setY(oy - bh - 5);
+            ball.setY(oy - bh);
         }
         // Hits the bottom of the obstacle
-        else if (by < (oy + oh) && (bx > ox && bx < (ox + ow))) {
+        else if (by < (oy + oh) && by > oy + oh/2 && (bx > ox + 10 && bx < (ox + ow))) {
+            System.out.println("bottom");
             ball.setYVelocity(ball.getYVelocity() * -1);
-            ball.setY(oy + oh + 5);
+            ball.setY(oy + oh);
         }
         // Hits the left side of the obstacle
-//        else if ((bx + bw) > ox && (by > oy && by < (oy + oh))) {
-//            // Flips X, keeps Y (bounces off at correct angle)
-//            ball.setXVelocity(ball.getXVelocity() * -1);
-//            ball.setX(ox - bw - 5);
-//        }
-//        // Hits the right side of the obstacle
-         else if (bx < (ox + ow) && (bx > ox) && (by > oy && by < (oy + oh))) {
+        else if (bx > ox - bw && bx < ox + ow - bw && (by > oy + 10 && by < (oy + oh))) {
+            // Flips X, keeps Y (bounces off at correct angle)
+            System.out.println("left");
             ball.setXVelocity(ball.getXVelocity() * -1);
-            ball.setX(ox + ow + bw + 5);
+            ball.setX(ox - bw);
+        }
+        //TODO right side is tweaking, rest workrfs
+////        // Hits the right side of the obstacle
+        else if (bx < (ox + ow) && (bx > ox) && (by > oy + 10 && by < (oy + oh))) {
+            System.out.println("right");
+            ball.setXVelocity(ball.getXVelocity() * -1);
+            ball.setX(ox + ow + bw);
         }
     }
     public void actionPerformed(ActionEvent e) {
@@ -163,7 +167,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         ball.wallBounce();
         obstacleBounce();
         ball.move();
-//        hit();
+        hit();
     }
 
     public static void main(String[] args) {

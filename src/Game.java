@@ -107,17 +107,17 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         //TODO no magic numbers
         if (round == 1) {
             for (int i = 0; i < 2; i++) {
-                obstacles.add(new Obstacle((int) (Math.random() * 50) + 10, (int) (Math.random() * 100) + 10, ((int) (Math.random() * 600) + 10), ((int) (Math.random() * 600) + 10), ball));
+                obstacles.add(new Obstacle((int) (Math.random() * 50) + 10, (int) (Math.random() * 100) + 10, ((int) (Math.random() * 800) + 10), ((int) (Math.random() * 800) + 10), ball));
             }
         }
         else if (round == 2) {
             for (int i = 0; i < 7; i++) {
-                obstacles.add(new Obstacle(70, 100, ((int) (Math.random() * 600) + 10), ((int) (Math.random() * 600) + 10), ball));
+                obstacles.add(new Obstacle((int) (Math.random() * 50) + 10, (int) (Math.random() * 100) + 10, ((int) (Math.random() * 800) + 10), ((int) (Math.random() * 800) + 10), ball));
             }
         }
         else {
             for (int i = 0; i < 12; i++) {
-                obstacles.add(new Obstacle(70, 100, ((int) (Math.random() * 600) + 10), ((int) (Math.random() * 600) + 10), ball));
+                obstacles.add(new Obstacle((int) (Math.random() * 50) + 10, (int) (Math.random() * 100) + 10, ((int) (Math.random() * 800) + 10), ((int) (Math.random() * 800) + 10), ball));
             }
         }
     }

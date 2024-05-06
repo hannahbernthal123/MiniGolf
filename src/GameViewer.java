@@ -58,6 +58,10 @@ public class GameViewer extends JFrame {
                     game.getObstacles().get(i).draw(g, 3);
                 }
             }
+            if (game.getIsDragged()) {
+                g.setColor(Color.BLUE);
+                g.drawLine((int) game.getBall().getX() + game.getBall().getBallWidth()/2, (int) game.getBall().getY() + game.getBall().getBallHeight()/2, (int) getMousePosition().getX(), (int) getMousePosition().getY());
+            }
         }
         if (game.getCurrentState().equals("gameOver")) {
             g.setColor(Color.WHITE);

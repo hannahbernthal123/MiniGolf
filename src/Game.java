@@ -11,6 +11,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     private Hole hole;
     private double futureVel;
     private boolean isPressed;
+    private boolean isDragged;
     private static final int SLEEP_TIME = 30;
     private String currentState;
     private ArrayList<Obstacle> obstacles;
@@ -28,6 +29,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         this.window.addMouseMotionListener(this);
         score = -1;
         isPressed = false;
+        isDragged = false;
     }
 
     public Ball getBall() {
@@ -56,12 +58,15 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         return currentState;
     }
 
+    public boolean getIsDragged() {
+        return isDragged;
+    }
     public void mousePressed(MouseEvent e) {
         futureVel = 0;
         isPressed = true;
         score++;
-    }
 
+    }
     public void mouseReleased(MouseEvent e) {
         ball.setColor(Color.white);
         double diffX = e.getX() - ball.getX();
@@ -70,6 +75,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         ball.setXVelocity(-1 * (diffX / distance * futureVel));
         ball.setYVelocity(-1 * (diffY / distance * futureVel));
         isPressed = false;
+        isDragged = false;
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -96,6 +102,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         int x = e.getX();
         int y = e.getY();
         ball.setColor(new Color(0xFF686D));
+        isDragged = true;
     }
 
     public void mouseMoved(MouseEvent e) {

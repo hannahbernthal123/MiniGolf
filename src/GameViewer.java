@@ -40,17 +40,23 @@ public class GameViewer extends JFrame {
             if (game.getRound() == 1) {
                 game.getHole().draw(g);
                 game.getBall().draw(g);
-                game.getObstacle().draw(g, 1);
+                for (int i = 0; i < game.getObstacles().size(); i++) {
+                    game.getObstacles().get(i).draw(g, 1);
+                }
             }
             else if (game.getRound() == 2) {
                 game.getHole().draw(g);
                 game.getBall().draw(g);
-                game.getObstacle().draw(g, 2);
+                for (int i = 0; i < game.getObstacles().size(); i++) {
+                    game.getObstacles().get(i).draw(g, 2);
+                }
             }
             else {
                 game.getHole().draw(g);
                 game.getBall().draw(g);
-                game.getObstacle().draw(g, 3);
+                for (int i = 0; i < game.getObstacles().size(); i++) {
+                    game.getObstacles().get(i).draw(g, 3);
+                }
             }
         }
         if (game.getCurrentState().equals("gameOver")) {

@@ -9,7 +9,6 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     private int score;
     private Ball ball;
     private Hole hole;
-    private Obstacle obstacle;
     private double futureVel;
     private boolean isPressed;
     private static final int SLEEP_TIME = 30;
@@ -21,13 +20,12 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         round = 1;
         ball = new Ball();
         hole = new Hole((int) ((Math.random() * 800) + 100), (int) ((Math.random() * 600) + 100));
-        obstacle = new Obstacle(70, 100);
+        obstacles = new ArrayList<Obstacle>();
         futureVel = 0;
         currentState = "instructions";
         window = new GameViewer(this);
         this.window.addMouseListener(this);
         this.window.addMouseMotionListener(this);
-        obstacles = new ArrayList<Obstacle>();
         score = -1;
         isPressed = false;
     }
@@ -35,15 +33,21 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     public Ball getBall() {
         return ball;
     }
+
+    public ArrayList<Obstacle> getObstacles() {
+        return obstacles;
+    }
+
+
     public Hole getHole() {
         return hole;
     }
-    public Obstacle getObstacle() {
-        return obstacle;
-    }
+
+
     public int getRound() {
         return round;
     }
+
     public int getScore() {
         return score;
     }
@@ -62,9 +66,9 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         ball.setColor(Color.white);
         double diffX = e.getX() - ball.getX();
         double diffY = e.getY() - ball.getY();
-        double distance = Math.sqrt((diffX*diffX) + (diffY*diffY));
-        ball.setXVelocity(-1*(diffX/distance*futureVel));
-        ball.setYVelocity(-1*(diffY/distance*futureVel));
+        double distance = Math.sqrt((diffX * diffX) + (diffY * diffY));
+        ball.setXVelocity(-1 * (diffX / distance * futureVel));
+        ball.setYVelocity(-1 * (diffY / distance * futureVel));
         isPressed = false;
     }
 
@@ -73,6 +77,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         if (currentState.equals("instructions")) {
             if (e.getX() > 250 && e.getX() < 750) {
                 currentState = "play";
+                generateObstacles();
                 window.repaint();
             }
         }
@@ -98,6 +103,24 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
 
     }
 
+    public void generateObstacles() {
+        //TODO no magic numbers
+        if (round == 1) {
+            for (int i = 0; i < 2; i++) {
+                obstacles.add(new Obstacle((int) (Math.random() * 50) + 10, (int) (Math.random() * 100) + 10, ((int) (Math.random() * 600) + 10), ((int) (Math.random() * 600) + 10), ball));
+            }
+        }
+        else if (round == 2) {
+            for (int i = 0; i < 7; i++) {
+                obstacles.add(new Obstacle(70, 100, ((int) (Math.random() * 600) + 10), ((int) (Math.random() * 600) + 10), ball));
+            }
+        }
+        else {
+            for (int i = 0; i < 12; i++) {
+                obstacles.add(new Obstacle(70, 100, ((int) (Math.random() * 600) + 10), ((int) (Math.random() * 600) + 10), ball));
+            }
+        }
+    }
     public void hit() {
         if (ball.getX() > hole.getX() && ball.getX() < (hole.getX() + hole.getHoleWidth())) {
             if (ball.getY() > hole.getY() && ball.getY() < (hole.getY() + hole.getHoleHeight())) {
@@ -105,56 +128,24 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
                 if (round > 3) {
                     currentState = "gameOver";
                 }
-                ball.setX(100);
-                ball.setY(100);
-                ball.setXVelocity(0);
-                ball.setYVelocity(0);
-                hole.setX((int) ((Math.random() * 600) + 300));
-                hole.setY((int) ((Math.random() * 600) + 100));
-                window.repaint();
+                reset();
             }
         }
     }
 
-    public void obstacleBounce() {
-        // Format the following with initials --> bw = ball width, bx = ball x coordinate, etc.
-        int bw = ball.getBallWidth();
-        int bh = ball.getBallHeight();
-        int bx = (int) ball.getX();
-        int by = (int) ball.getY();
-        int ow = obstacle.getWidth();
-        int oh = obstacle.getHeight();
-        int ox = obstacle.getX();
-        int oy = obstacle.getY();
-
-        // Hits the top of the obstacle
-        if ((by > oy - bh) && (by + bh < oy + oh/2) && (bx > ox) && (bx < ox + ow)) {
-            // Flips Y, keeps X (bounces off at correct angle)
-            System.out.println("top");
-            ball.setYVelocity(ball.getYVelocity() * -1);
-            ball.setY(oy - bh);
-        }
-        // Hits the bottom of the obstacle
-        else if (by < (oy + oh) && by > oy + oh/2 && (bx > ox + 10 && bx < (ox + ow))) {
-            System.out.println("bottom");
-            ball.setYVelocity(ball.getYVelocity() * -1);
-            ball.setY(oy + oh);
-        }
-        // Hits the left side of the obstacle
-        else if (bx > ox - bw && bx < ox + ow - bw && (by > oy + 10 && by < (oy + oh))) {
-            // Flips X, keeps Y (bounces off at correct angle)
-            System.out.println("left");
-            ball.setXVelocity(ball.getXVelocity() * -1);
-            ball.setX(ox - bw);
-        }
-        //TODO right side is tweaking, rest workrfs
-////        // Hits the right side of the obstacle
-        else if (bx < (ox + ow) && (bx > ox) && (by > oy + 10 && by < (oy + oh))) {
-            System.out.println("right");
-            ball.setXVelocity(ball.getXVelocity() * -1);
-            ball.setX(ox + ow + bw);
-        }
+    public void reset() {
+        obstacles.clear();
+        ball.setX(100);
+        ball.setY(100);
+        ball.setXVelocity(0);
+        ball.setYVelocity(0);
+        hole.setX((int) ((Math.random() * 600) + 300));
+        hole.setY((int) ((Math.random() * 600) + 100));
+        generateObstacles();
+        window.repaint();
     }
+
+
     public void actionPerformed(ActionEvent e) {
         window.repaint();
         if (isPressed) {
@@ -165,7 +156,9 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         }
         ball.friction();
         ball.wallBounce();
-        obstacleBounce();
+        for (int i = 0; i < obstacles.size(); i++) {
+            obstacles.get(i).obstacleBounce();
+        }
         ball.move();
         hit();
     }

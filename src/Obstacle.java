@@ -6,12 +6,15 @@ public class Obstacle {
     private int OBSTACLE_HEIGHT;
     private int x;
     private int y;
+    private Ball ball;
 
-    public Obstacle(int width, int height) {
+
+    public Obstacle(int width, int height, int x, int y, Ball ball) {
         OBSTACLE_WIDTH = width;
         OBSTACLE_HEIGHT = height;
-        x = (int) ((Math.random() * 800) + OBSTACLE_WIDTH);
-        y = ((int) (Math.random() * 600) + OBSTACLE_HEIGHT);
+        this.x = x;
+        this.y = y;
+        this.ball = ball;
     }
 
     public int getHeight() {
@@ -55,6 +58,47 @@ public class Obstacle {
         }
         else {
             drawRound3(g);
+        }
+    }
+
+    public void obstacleBounce() {
+        // Format the following with initials --> bw = ball width, bx = ball x coordinate, etc.
+        int bw = ball.getBallWidth();
+        int bh = ball.getBallHeight();
+        int bx = (int) ball.getX();
+        int by = (int) ball.getY();
+        int ow = this.getWidth();
+        int oh = this.getHeight();
+        int ox = this.getX();
+        int oy = this.getY();
+
+
+
+        // Hits the top of the obstacle
+        if ((by > oy - bh) && (by + bh < oy + oh / 2) && (bx > ox) && (bx < ox + ow)) {
+            // Flips Y, keeps X (bounces off at correct angle)
+            System.out.println("top");
+            ball.setYVelocity(ball.getYVelocity() * -1);
+            //ball.setY(oy - bh);
+        }
+        // Hits the bottom of the obstacle
+        else if (by < (oy + oh) && by > oy + oh / 2 && (bx > ox + 10 && bx < (ox + ow))) {
+            System.out.println("bottom");
+            ball.setYVelocity(ball.getYVelocity() * -1);
+            //ball.setY(oy + oh);
+        }
+        // Hits the left side of the obstacle
+        else if (bx > ox - bw && bx < ox + ow - bw && (by > oy + 10 && by < (oy + oh))) {
+            // Flips X, keeps Y (bounces off at correct angle)
+            System.out.println("left");
+            ball.setXVelocity(ball.getXVelocity() * -1);
+            ball.setX(ox - bw);
+        }
+        // Hits the right side of the obstacle
+        else if (bx < ox + ow + 1 && (bx > ox) && (by > oy && by < (oy + oh - 1))) {
+            System.out.println("right");
+            ball.setXVelocity(ball.getXVelocity() * -1);
+            //ball.setX(ox + ow + 1);
         }
     }
 

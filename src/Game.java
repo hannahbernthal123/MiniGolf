@@ -62,20 +62,25 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         return isDragged;
     }
     public void mousePressed(MouseEvent e) {
-        futureVel = 0;
         isPressed = true;
         score++;
 
     }
     public void mouseReleased(MouseEvent e) {
-        ball.setColor(Color.white);
-        double diffX = e.getX() - ball.getX();
-        double diffY = e.getY() - ball.getY();
-        double distance = Math.sqrt((diffX * diffX) + (diffY * diffY));
-        ball.setXVelocity(-1 * (diffX / distance * futureVel));
-        ball.setYVelocity(-1 * (diffY / distance * futureVel));
-        isPressed = false;
-        isDragged = false;
+        if (score != 0) {
+            ball.setColor(Color.white);
+            double diffX = e.getX() - ball.getX();
+            double diffY = e.getY() - ball.getY();
+            double distance = Math.sqrt((diffX * diffX) + (diffY * diffY));
+            futureVel += 10 * distance;
+            if (futureVel >= 20) {
+                futureVel = 20;
+            }
+            ball.setXVelocity(-1 * (diffX / futureVel));
+            ball.setYVelocity(-1 * (diffY / futureVel));
+            isPressed = false;
+            isDragged = false;
+        }
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -140,6 +145,19 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         }
     }
 
+//    public void hit() {
+//        double ballCenter = ball.getY() + ball.getBallHeight()/2;
+//        if (ballCenter > hole.getX() && ballCenter < (hole.getX() + hole.getHoleWidth())) {
+//            if (ballCenter > hole.getY() && ballCenter < (hole.getY() + hole.getHoleHeight())) {
+//                round++;
+//                if (round > 3) {
+//                    currentState = "gameOver";
+//                }
+//                reset();
+//            }
+//        }
+//    }
+
     public void reset() {
         obstacles.clear();
         ball.setX(100);
@@ -155,19 +173,13 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
 
     public void actionPerformed(ActionEvent e) {
         window.repaint();
-        if (isPressed) {
-            futureVel += .5;
-            if (futureVel >= 20) {
-                futureVel = 20;
-            }
-        }
         ball.friction();
         ball.wallBounce();
+        hit();
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).obstacleBounce();
         }
         ball.move();
-        hit();
     }
 
     public static void main(String[] args) {

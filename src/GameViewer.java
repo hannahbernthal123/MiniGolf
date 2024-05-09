@@ -7,8 +7,10 @@ import java.awt.image.BufferStrategy;
 
 public class GameViewer extends JFrame {
     private Game game;
+    private int time;
     private final int WINDOW_WIDTH = 1000;
     private final int WINDOW_HEIGHT = 800;
+    private static final int SLEEP_TIME = 30;
 
     public GameViewer(Game game) {
         this.game = game;
@@ -26,8 +28,9 @@ public class GameViewer extends JFrame {
             g.setFont(new Font("Impact", Font.BOLD, 30));
             g.drawString("Instructions:", 200, 200);
             g.drawString("Fire the ball and try to get it", 250, 300);
-            g.drawString("in the hole! The longer you", 250, 350);
-            g.drawString("hold down, the more power you generate", 250, 400);
+            g.drawString("in the hole! The further you pull,", 250, 350);
+            g.drawString("the more power you generate. Pull", 250, 400);
+            g.drawString("in the opposite direction you want to go!", 250, 450);
             g.setColor(new Color(0x068306));
             g.fillRoundRect(250, 500, 500, 100, 10, 10);
             g.setColor(Color.WHITE);
@@ -43,15 +46,13 @@ public class GameViewer extends JFrame {
                 for (int i = 0; i < game.getObstacles().size(); i++) {
                     game.getObstacles().get(i).draw(g, 1);
                 }
-            }
-            else if (game.getRound() == 2) {
+            } else if (game.getRound() == 2) {
                 game.getHole().draw(g);
                 game.getBall().draw(g);
                 for (int i = 0; i < game.getObstacles().size(); i++) {
                     game.getObstacles().get(i).draw(g, 2);
                 }
-            }
-            else {
+            } else {
                 game.getHole().draw(g);
                 game.getBall().draw(g);
                 for (int i = 0; i < game.getObstacles().size(); i++) {
@@ -60,16 +61,17 @@ public class GameViewer extends JFrame {
             }
             if (game.getIsDragged()) {
                 g.setColor(Color.BLUE);
-                g.drawLine((int) game.getBall().getX() + game.getBall().getBallWidth()/2, (int) game.getBall().getY() + game.getBall().getBallHeight()/2, (int) getMousePosition().getX(), (int) getMousePosition().getY());
+                g.drawLine((int) game.getBall().getX() + game.getBall().getBallWidth() / 2, (int) game.getBall().getY() + game.getBall().getBallHeight() / 2, (int) getMousePosition().getX(), (int) getMousePosition().getY());
             }
         }
         if (game.getCurrentState().equals("gameOver")) {
-            g.setColor(Color.WHITE);
+            g.setColor(new Color(0x00BCFF));
             g.fillRect(0, 0, 1000, 800);
-            g.setColor(Color.BLACK);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Impact", Font.BOLD, 100));
+            g.drawString("GAME OVER", 250, 200);
             g.setFont(new Font("Impact", Font.BOLD, 30));
-            g.drawString("GAME OVER", 200, 200);
-            g.drawString("Your score is " + game.getScore(), 200, 400);
+            g.drawString("Your score is " + game.getScore() + "!", 370, 300);
         }
 
     }

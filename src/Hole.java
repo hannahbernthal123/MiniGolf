@@ -5,8 +5,8 @@ public class Hole {
     private boolean hasBeenHit;
     private int x;
     private int y;
-    private final int HOLE_WIDTH = 30;
-    private final int HOLE_HEIGHT = 30;
+    private final int HOLE_WIDTH = 40;
+    private final int HOLE_HEIGHT = 35;
 
     public Hole(int x, int y) {
         this.x = x;
@@ -54,7 +54,7 @@ public class Hole {
 
         // Variables for flag.
         int topOfFlagY = y - 50;
-        int topOfFlagX = x + 13;
+        int topOfFlagX = x + 18;
         int[] flagXPoints = new int[]{topOfFlagX, topOfFlagX, topOfFlagX + 45};
         int[] flagYPoints = new int[]{topOfFlagY, topOfFlagY - 30, (topOfFlagY + topOfFlagY - 30) / 2};
         int numFlagPoints = 3;

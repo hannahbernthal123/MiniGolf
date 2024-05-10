@@ -2,7 +2,6 @@ import java.awt.*;
 
 //Hannah Bernthal - 2024
 public class Hole {
-    private boolean hasBeenHit;
     private int x;
     private int y;
     private final int HOLE_WIDTH = 40;
@@ -11,17 +10,9 @@ public class Hole {
     public Hole(int x, int y) {
         this.x = x;
         this.y = y;
-        hasBeenHit = false;
     }
 
-    public boolean isHasBeenHit() {
-        return hasBeenHit;
-    }
-
-    public void setHasBeenHit(boolean hasBeenHit) {
-        this.hasBeenHit = hasBeenHit;
-    }
-
+    // Getters and setters
     public int getX() {
         return x;
     }
@@ -48,11 +39,11 @@ public class Hole {
 
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
-        // Add minus 10 for depth effect.
+        // Add minus 10 for depth effect
         g.fillOval(x, y, HOLE_WIDTH, HOLE_HEIGHT - 10);
         g.setColor(Color.WHITE);
 
-        // Variables for flag.
+        // Variables for drawing flag
         int topOfFlagY = y - 50;
         int topOfFlagX = x + 18;
         int[] flagXPoints = new int[]{topOfFlagX, topOfFlagX, topOfFlagX + 45};

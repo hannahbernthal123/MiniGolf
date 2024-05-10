@@ -7,14 +7,11 @@ import java.awt.image.BufferStrategy;
 
 public class GameViewer extends JFrame {
     private Game game;
-    private int time;
     private final int WINDOW_WIDTH = 1000;
     private final int WINDOW_HEIGHT = 800;
-    private static final int SLEEP_TIME = 30;
 
     public GameViewer(Game game) {
         this.game = game;
-
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setTitle("Mini Golf");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,6 +20,7 @@ public class GameViewer extends JFrame {
     }
 
     public void myPaint(Graphics g) {
+        // If statements control what the board looks at what time
         if (game.getCurrentState().equals("instructions")) {
             g.setColor(Color.BLACK);
             g.setFont(new Font("Impact", Font.BOLD, 30));
@@ -40,41 +38,35 @@ public class GameViewer extends JFrame {
         if (game.getCurrentState().equals("play")) {
             g.setColor(new Color(0x068306));
             g.fillRect(0, 0, 1000, 800);
-            if (game.getRound() == 1) {
-                game.getHole().draw(g);
-                game.getBall().draw(g);
-                for (int i = 0; i < game.getObstacles().size(); i++) {
-                    game.getObstacles().get(i).draw(g, 1);
-                }
-            } else if (game.getRound() == 2) {
-                game.getHole().draw(g);
-                game.getBall().draw(g);
-                for (int i = 0; i < game.getObstacles().size(); i++) {
-                    game.getObstacles().get(i).draw(g, 2);
-                }
-            } else {
-                game.getHole().draw(g);
-                game.getBall().draw(g);
-                for (int i = 0; i < game.getObstacles().size(); i++) {
-                    game.getObstacles().get(i).draw(g, 3);
-                }
-            }
+            setUpPlay(game.getRound(), g);
             if (game.getIsDragged()) {
                 g.setColor(Color.BLUE);
-                g.drawLine((int) game.getBall().getX() + game.getBall().getBallWidth() / 2, (int) game.getBall().getY() + game.getBall().getBallHeight() / 2, (int) getMousePosition().getX(), (int) getMousePosition().getY());
+                g.drawLine((int) game.getBall().getX() + game.getBall().getBallWidth()/2, (int) game.getBall().getY() + game.getBall().getBallHeight()/2, (int) getMousePosition().getX(), (int) getMousePosition().getY());
             }
         }
         if (game.getCurrentState().equals("gameOver")) {
+            // Draws game over, your score, and the white golf ball
             g.setColor(new Color(0x00BCFF));
             g.fillRect(0, 0, 1000, 800);
             g.setColor(Color.WHITE);
             g.setFont(new Font("Impact", Font.BOLD, 100));
             g.drawString("GAME OVER", 250, 200);
             g.setFont(new Font("Impact", Font.BOLD, 30));
-            g.drawString("Your score is " + game.getScore() + "!", 370, 300);
+            g.drawString("You took " + game.getScore() + "strokes!", 370, 300);
+            g.drawImage(new ImageIcon("Resources/Golfball.png").getImage(), 350, 525, 300, 300, this);
         }
 
     }
+
+    // Draws the hole, the ball, and the number of obstacles needed
+    public void setUpPlay(int round, Graphics g) {
+        game.getHole().draw(g);
+        game.getBall().draw(g);
+        for (int i = 0; i < game.getObstacles().size(); i++) {
+            game.getObstacles().get(i).draw(g, round);
+        }
+    }
+
 
     public void paint(Graphics g) {
         BufferStrategy bf = this.getBufferStrategy();

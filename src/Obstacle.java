@@ -8,7 +8,6 @@ public class Obstacle {
     private int y;
     private Ball ball;
 
-
     public Obstacle(int width, int height, int x, int y, Ball ball) {
         OBSTACLE_WIDTH = width;
         OBSTACLE_HEIGHT = height;
@@ -17,48 +16,22 @@ public class Obstacle {
         this.ball = ball;
     }
 
+    // Getters and setters
     public int getHeight() {
         return OBSTACLE_HEIGHT;
-    }
-
-    public void setHeight(int height) {
-        this.OBSTACLE_HEIGHT = height;
     }
 
     public int getWidth() {
         return OBSTACLE_WIDTH;
     }
 
-    public void setWidth(int width) {
-        this.OBSTACLE_WIDTH = width;
-    }
 
     public int getX() {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public void draw(Graphics g, int round) {
-        if (round == 1) {
-            drawRound1(g);
-        }
-        else if (round == 2) {
-            drawRound2(g);
-        }
-        else {
-            drawRound3(g);
-        }
     }
 
     public void obstacleBounce() {
@@ -71,7 +44,6 @@ public class Obstacle {
         int oh = this.getHeight();
         int ox = this.getX();
         int oy = this.getY();
-
 
 
         // Hits the top of the obstacle
@@ -92,7 +64,7 @@ public class Obstacle {
             // Flips X, keeps Y (bounces off at correct angle)
             System.out.println("left");
             ball.setXVelocity(ball.getXVelocity() * -1);
-            ball.setX(ox - bw);
+            //ball.setX(ox - bw);
         }
         // Hits the right side of the obstacle
         else if (bx < ox + ow + 1 && (bx > ox) && (by > oy && by < (oy + oh - 1))) {
@@ -102,6 +74,20 @@ public class Obstacle {
         }
     }
 
+    // Main draw method that calls smaller helper methods based on round
+    public void draw(Graphics g, int round) {
+        if (round == 1) {
+            drawRound1(g);
+        }
+        else if (round == 2) {
+            drawRound2(g);
+        }
+        else {
+            drawRound3(g);
+        }
+    }
+
+    // Three draw methods depending on what round it is --> different number of obstacles generate
     public void drawRound1(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillRect(x, y, OBSTACLE_WIDTH, OBSTACLE_HEIGHT);

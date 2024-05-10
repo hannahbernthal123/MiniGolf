@@ -10,12 +10,20 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
     private Ball ball;
     private Hole hole;
     private double futureVel;
-    private boolean isPressed;
     private boolean isDragged;
-    private static final int SLEEP_TIME = 30;
     private String currentState;
     private ArrayList<Obstacle> obstacles;
     private int round;
+    // Static variables
+    private static final int SLEEP_TIME = 30;
+    private static final int START_BUTTON_LEFT = 250;
+    private static final int START_BUTTON_RIGHT = 750;
+    private static final int OBSTACLE_MAX_WIDTH = 50;
+    private static final int OBSTACLE_MAX_HEIGHT = 100;
+    private static final int ROUND1_OBSTACLE_COUNT = 2;
+    private static final int ROUND2_OBSTACLE_COUNT = 7;
+    private static final int ROUND3_OBSTACLE_COUNT = 12;
+    private static final int OBSTACLE_BOUNDS = 800;
 
     public Game() {
         round = 1;
@@ -27,11 +35,12 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         window = new GameViewer(this);
         this.window.addMouseListener(this);
         this.window.addMouseMotionListener(this);
-        score = -1;
-        isPressed = false;
         isDragged = false;
+        score = -1;
+
     }
 
+    // Getters and setters
     public Ball getBall() {
         return ball;
     }
@@ -40,14 +49,16 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         return obstacles;
     }
 
-
     public Hole getHole() {
         return hole;
     }
 
-
     public int getRound() {
         return round;
+    }
+
+    public boolean getIsDragged() {
+        return isDragged;
     }
 
     public int getScore() {
@@ -58,13 +69,10 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         return currentState;
     }
 
-    public boolean getIsDragged() {
-        return isDragged;
-    }
+    // Mouselistener methods
     public void mousePressed(MouseEvent e) {
-        isPressed = true;
         score++;
-
+        isDragged = true;
     }
     public void mouseReleased(MouseEvent e) {
         if (score != 0) {
@@ -78,62 +86,63 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
             }
             ball.setXVelocity(-1 * (diffX / futureVel));
             ball.setYVelocity(-1 * (diffY / futureVel));
-            isPressed = false;
-            isDragged = false;
         }
+        isDragged = false;
     }
 
     public void mouseClicked(MouseEvent e) {
-        //TODO no magic numbers and add Y values
         if (currentState.equals("instructions")) {
-            if (e.getX() > 250 && e.getX() < 750) {
+            if (e.getX() > START_BUTTON_LEFT && e.getX() < START_BUTTON_RIGHT && e.getY() > 500 && e.getY() < 600) {
                 currentState = "play";
                 generateObstacles();
                 window.repaint();
             }
         }
     }
-
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    public void mouseExited(MouseEvent e) {
-
-    }
-
     public void mouseDragged(MouseEvent e) {
         // Ask the input event the current location (x and y position on the Frame) of the mouse
         int x = e.getX();
         int y = e.getY();
+        // When the mouse is dragged, turn red so that they know power is loading up
         ball.setColor(new Color(0xFF686D));
-        isDragged = true;
     }
-
+    public void mouseEntered(MouseEvent e) {
+    }
+    public void mouseExited(MouseEvent e) {
+    }
     public void mouseMoved(MouseEvent e) {
-
-
     }
+
 
     public void generateObstacles() {
-        //TODO no magic numbers
         if (round == 1) {
-            for (int i = 0; i < 2; i++) {
-                obstacles.add(new Obstacle((int) (Math.random() * 50) + 10, (int) (Math.random() * 100) + 10, ((int) (Math.random() * 800) + 10), ((int) (Math.random() * 800) + 10), ball));
+            for (int i = 0; i < ROUND1_OBSTACLE_COUNT; i++) {
+                newObstacle(i);
             }
         }
         else if (round == 2) {
-            for (int i = 0; i < 7; i++) {
-                obstacles.add(new Obstacle((int) (Math.random() * 50) + 10, (int) (Math.random() * 100) + 10, ((int) (Math.random() * 800) + 10), ((int) (Math.random() * 800) + 10), ball));
+            for (int i = 0; i < ROUND2_OBSTACLE_COUNT; i++) {
+                newObstacle(i);
             }
         }
         else {
-            for (int i = 0; i < 12; i++) {
-                obstacles.add(new Obstacle((int) (Math.random() * 50) + 10, (int) (Math.random() * 100) + 10, ((int) (Math.random() * 800) + 10), ((int) (Math.random() * 800) + 10), ball));
+            for (int i = 0; i < ROUND3_OBSTACLE_COUNT; i++) {
+                newObstacle(i);
             }
         }
     }
+
+    // Generates a singular new obstacle and checks that the X and Y are not covering the hole
+    public void newObstacle(int i) {
+        obstacles.add(new Obstacle((int) (Math.random() * OBSTACLE_MAX_WIDTH) + 10, (int) (Math.random() * OBSTACLE_MAX_HEIGHT) + 10, ((int) (Math.random() * OBSTACLE_BOUNDS) + 10), ((int) (Math.random() * OBSTACLE_BOUNDS) + 10), ball));
+        while (obstacles.get(i).getX() < (hole.getX() + hole.getHoleWidth()) && obstacles.get(i).getX() > hole.getX() || obstacles.get(i).getY() < (hole.getY() + hole.getHoleHeight()) && obstacles.get(i).getY() > hole.getY()) {
+            obstacles.set(i, new Obstacle((int) (Math.random() * OBSTACLE_MAX_WIDTH) + 10, (int) (Math.random() * OBSTACLE_MAX_HEIGHT) + 10, ((int) (Math.random() * OBSTACLE_BOUNDS) + 10), ((int) (Math.random() * OBSTACLE_BOUNDS) + 10), ball));
+        }
+    }
+
     public void hit() {
+        // Checks if the ball is within both the x and the y of the hole
+        // If so, it's a hit
         if (ball.getX() > hole.getX() && ball.getX() < (hole.getX() + hole.getHoleWidth())) {
             if (ball.getY() > hole.getY() && ball.getY() < (hole.getY() + hole.getHoleHeight())) {
                 round++;
@@ -145,19 +154,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         }
     }
 
-//    public void hit() {
-//        double ballCenter = ball.getY() + ball.getBallHeight()/2;
-//        if (ballCenter > hole.getX() && ballCenter < (hole.getX() + hole.getHoleWidth())) {
-//            if (ballCenter > hole.getY() && ballCenter < (hole.getY() + hole.getHoleHeight())) {
-//                round++;
-//                if (round > 3) {
-//                    currentState = "gameOver";
-//                }
-//                reset();
-//            }
-//        }
-//    }
-
+    // Reset method runs before every new round
     public void reset() {
         obstacles.clear();
         ball.setX(100);
@@ -170,7 +167,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
         window.repaint();
     }
 
-
+    // Every 30 milliseconds, all of these methods are run
     public void actionPerformed(ActionEvent e) {
         window.repaint();
         ball.friction();

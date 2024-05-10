@@ -52,7 +52,7 @@ public class GameViewer extends JFrame {
             g.setFont(new Font("Impact", Font.BOLD, 100));
             g.drawString("GAME OVER", 250, 200);
             g.setFont(new Font("Impact", Font.BOLD, 30));
-            g.drawString("You took " + game.getScore() + "strokes!", 370, 300);
+            g.drawString("You took " + game.getScore() + " strokes!", 370, 300);
             g.drawImage(new ImageIcon("Resources/Golfball.png").getImage(), 350, 525, 300, 300, this);
         }
 

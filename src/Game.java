@@ -134,7 +134,7 @@ public class Game implements MouseListener, MouseMotionListener, ActionListener 
 
     // Generates a singular new obstacle and checks that the X and Y are not covering the hole
     public void newObstacle(int i) {
-        obstacles.add(new Obstacle((int) (Math.random() * OBSTACLE_MAX_WIDTH) + 10, (int) (Math.random() * OBSTACLE_MAX_HEIGHT) + 10, ((int) (Math.random() * OBSTACLE_BOUNDS) + 10), ((int) (Math.random() * OBSTACLE_BOUNDS) + 10), ball));
+        obstacles.add(new Obstacle((int) (Math.random() * OBSTACLE_MAX_WIDTH) + 30, (int) (Math.random() * OBSTACLE_MAX_HEIGHT) + 30, ((int) (Math.random() * OBSTACLE_BOUNDS) + 10), ((int) (Math.random() * OBSTACLE_BOUNDS) + 10), ball));
         while (obstacles.get(i).getX() < (hole.getX() + hole.getHoleWidth()) && obstacles.get(i).getX() > hole.getX() || obstacles.get(i).getY() < (hole.getY() + hole.getHoleHeight()) && obstacles.get(i).getY() > hole.getY()) {
             obstacles.set(i, new Obstacle((int) (Math.random() * OBSTACLE_MAX_WIDTH) + 10, (int) (Math.random() * OBSTACLE_MAX_HEIGHT) + 10, ((int) (Math.random() * OBSTACLE_BOUNDS) + 10), ((int) (Math.random() * OBSTACLE_BOUNDS) + 10), ball));
         }

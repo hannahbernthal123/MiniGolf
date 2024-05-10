@@ -49,26 +49,22 @@ public class Obstacle {
         // Hits the top of the obstacle
         if ((by > oy - bh) && (by + bh < oy + oh / 2) && (bx > ox) && (bx < ox + ow)) {
             // Flips Y, keeps X (bounces off at correct angle)
-            System.out.println("top");
             ball.setYVelocity(ball.getYVelocity() * -1);
             //ball.setY(oy - bh);
         }
         // Hits the bottom of the obstacle
         else if (by < (oy + oh) && by > oy + oh / 2 && (bx > ox + 10 && bx < (ox + ow))) {
-            System.out.println("bottom");
             ball.setYVelocity(ball.getYVelocity() * -1);
             //ball.setY(oy + oh);
         }
         // Hits the left side of the obstacle
         else if (bx > ox - bw && bx < ox + ow - bw && (by > oy + 10 && by < (oy + oh))) {
             // Flips X, keeps Y (bounces off at correct angle)
-            System.out.println("left");
             ball.setXVelocity(ball.getXVelocity() * -1);
             //ball.setX(ox - bw);
         }
         // Hits the right side of the obstacle
         else if (bx < ox + ow + 1 && (bx > ox) && (by > oy && by < (oy + oh - 1))) {
-            System.out.println("right");
             ball.setXVelocity(ball.getXVelocity() * -1);
             //ball.setX(ox + ow + 1);
         }
